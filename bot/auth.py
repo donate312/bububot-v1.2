@@ -3,6 +3,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from config.settings import EMAIL, PASSWORD
 
+import time
+
 def accept_policy(driver):
     wait = WebDriverWait(driver, 5)
     try:
@@ -40,6 +42,7 @@ def login(driver):
     EC.presence_of_element_located((By.CSS_SELECTOR, 'input[placeholder="Enter your password"]'))
 )
     password_field.send_keys(PASSWORD)
+    
 
     # Attempt to click the "SIGN IN" button
     try:
@@ -53,7 +56,7 @@ def login(driver):
         print(f"[!] Error clicking the login button: {e}")
     #    driver.save_screenshot("login_error.png")
     #    return  # Exit if login button cannot be clicked
-
+    time.sleep(5)
     
     # Fill in login details and submit
     #try:

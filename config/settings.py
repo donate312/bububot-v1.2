@@ -8,6 +8,7 @@ load_dotenv()
 EMAIL = os.getenv("EMAIL")
 PASSWORD = os.getenv("PASSWORD")
 PRODUCT_URL = os.getenv("PRODUCT_URL")
+BAG_URL = os.getenv("BAG_URL")
 
 # Retry settings
 MAX_CHECKOUT_RETRIES = 5
