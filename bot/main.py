@@ -1,6 +1,6 @@
 from bot.browser import setup_driver
 from bot.auth import login
-from bot.cart import wait_for_product_and_add_to_cart, proceed_to_checkout
+from bot.cart import wait_for_product_and_add_to_cart, proceed_to_checkout, select_all_in_cart
 
 def main():
     driver = setup_driver()
@@ -9,6 +9,8 @@ def main():
         login(driver)
         wait_for_product_and_add_to_cart(driver)
         proceed_to_checkout(driver)
+        select_all_in_cart(driver)
+
     except Exception as e:
         print(f"[!] An error occurred: {e}")
     else:

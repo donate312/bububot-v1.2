@@ -42,8 +42,6 @@ def login(driver):
     EC.presence_of_element_located((By.CSS_SELECTOR, 'input[placeholder="Enter your password"]'))
 )
     password_field.send_keys(PASSWORD)
-    
-
     # Attempt to click the "SIGN IN" button
     try:
         login_button = wait.until(
@@ -54,31 +52,7 @@ def login(driver):
         login_button.click()
     except Exception as e:
         print(f"[!] Error clicking the login button: {e}")
-    #    driver.save_screenshot("login_error.png")
-    #    return  # Exit if login button cannot be clicked
     time.sleep(5)
     
-    # Fill in login details and submit
-    #try:
-    #    # Wait for modal and locate fields
-    #    wait.until(EC.presence_of_element_located((By.XPATH, '//div[contains(@class, "login_modal")]')))
-    #    email_field = wait.until(EC.presence_of_element_located((By.NAME, "email")))
-    #    password_field = wait.until(EC.presence_of_element_located((By.NAME, "password")))
-    #    
-    #    email_field.send_keys(EMAIL)
-    #    password_field.send_keys(PASSWORD)
-    #    
-    #    # Submit login
-    #    submit_button = driver.find_element(By.XPATH, '//button[contains(text(), "Log In")]')
-    #    submit_button.click()
-    #    
-    #    # Wait for login confirmation by checking for the account element
-    #    wait.until(EC.presence_of_element_located((By.XPATH, '//span[contains(text(), "Account")]')))
-    #    print("[+] Logged in successfully.")
-    #except Exception as e:
-    #    print(f"[!] Login failed: {e}")
-    #    driver.save_screenshot("login_error.png")
-    #    print("[!] Screenshot saved as login_error.png for debugging.")
-
     
     
