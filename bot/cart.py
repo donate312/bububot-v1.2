@@ -26,13 +26,26 @@ def wait_for_product_and_add_to_cart(driver):
                 ))
             )
             add_to_bag_button.click()
-            print("[+] Added product to bag.")
+            if wait_for_cart_update(driver):
+                print("[+] Added product to bag.")
             break  # Stop looping once the item is added
         except Exception as e:
             print(f"[-] Product not available yet or error occurred: {e}")
             print("[*] Retrying in 15 seconds...")
             time.sleep(15)
             driver.refresh()
+
+def wait_for_cart_update(driver):
+    wait = WebDriverWait(driver, 15)
+    print("[*] Waiting for cart to update...")
+
+    try:
+        wait.until(lambda d: d.find_element(By.CLASS_NAME, "index_infoTitle__d5wSp").text.strip() == "1")
+        print("[+] Cart updated with 1 item.")
+        return True
+    except Exception as e:
+        print(f"[!] Cart did not update: {e}")
+        return False
 
 def proceed_to_checkout(driver):
     print("[*] Navigating to cart page...")
@@ -63,8 +76,8 @@ def proceed_to_checkout(driver):
             print("[+] Proceeded to checkout.")
 
             # Step 3: Confirm you're on the checkout page
-            wait.until(EC.url_contains("checkout"))
-            print("[+] Checkout page loaded.")
+            wait.until(EC.url_contains("cart"))
+            print("[+] Delivery page loaded.")
             return True
 
         except Exception as e:
@@ -77,33 +90,4 @@ def proceed_to_checkout(driver):
     return False
 
 
-def select_all_in_cart(driver):
-    wait = WebDriverWait(driver, 15)
-    """
-    Clicks the "Select All" checkbox in the cart.
-    Assumes the first checkbox is the "Select All" control.
-    """
-    for attempt in range(1, MAX_CHECKOUT_RETRIES + 1):
-        try:
-            # STEP 1: Click "Select All" checkbox using its class
-            select_all = wait.until(EC.element_to_be_clickable((
-                By.CLASS_NAME, "index_checkbox__w_166"
-            )))
-            select_all.click()
-            print("[+] Selected all items in cart.")
-            time.sleep(5)  # Optional: wait a bit to see if it actually checked
 
-            # STEP 2: Click "CHECK OUT" button
-            checkout_button = wait.until(EC.element_to_be_clickable((
-                By.XPATH, '//button[contains(text(), "CHECK OUT")]'
-            )))
-            checkout_button.click()
-            print(f"[+] Attempt {attempt}: Proceeded to checkout.")
-        # (Optional) Wait a bit to see if it actually checked
-            
-        except Exception as e:
-            print(f"[!] Could not click 'Select All': {e}")
-            driver.save_screenshot("select_all_error.png")
-            print("[!] Screenshot saved as select_all_error.png for debugging.")
-            raise
-    

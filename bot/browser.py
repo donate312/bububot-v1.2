@@ -1,6 +1,7 @@
 import undetected_chromedriver as uc
 from config.settings import HEADLESS
 
+
 def setup_driver():
     options = uc.ChromeOptions()
     
@@ -12,5 +13,5 @@ def setup_driver():
     options.add_argument("--disable-blink-features=AutomationControlled")
 
     print("[*] Launching browser...")
-    driver = uc.Chrome(options=options)
+    driver = uc.Chrome(options=options, keep_alive=True)
     return driver
